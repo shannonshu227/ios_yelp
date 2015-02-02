@@ -1,41 +1,24 @@
 //
-//  AppDelegate.m
-//  Yelp
+//  SVAppDelegate.m
+//  SVPullToRefreshDemo
 //
-//  Created by Timothy Lee on 3/21/14.
-//  Copyright (c) 2014 codepath. All rights reserved.
+//  Created by Sam Vermette on 23.04.12.
+//  Copyright (c) 2012 samvermette.com. All rights reserved.
 //
 
-#import "AppDelegate.h"
-#import "MainViewController.h"
+#import "SVAppDelegate.h"
 
-@implementation AppDelegate
+#import "SVRootViewController.h"
+
+@implementation SVAppDelegate
+
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[MainViewController alloc] init]];
-    self.window.rootViewController = navigationController;
-    
-    navigationController.navigationBar.barTintColor = [UIColor orangeColor];
-//    navigationController.title = @"Yelp";
-//    NSShadow *shadow = [[NSShadow alloc] init];
-//    shadow.shadowColor = [UIColor blueColor];
-//    shadow.shadowOffset = CGSizeMake(2, 2);
-//    shadow.shadowBlurRadius = 2;
-//    
-//    NSDictionary *titleTextAttributes =
-//    @{
-//      NSFontAttributeName : [UIFont boldSystemFontOfSize:22],
-//      NSForegroundColorAttributeName : [UIColor colorWithRed:1 green:0 blue:0 alpha:1],
-//      NSShadowAttributeName : shadow
-//      };
-//    
-//    navigationController.navigationBar.titleTextAttributes = titleTextAttributes;
-//    
-    
-    self.window.backgroundColor = [UIColor whiteColor];
+    // Override point for customization after application launch.
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SVRootViewController alloc] initWithNibName:@"SVRootViewController" bundle:nil]];
     [self.window makeKeyAndVisible];
     return YES;
 }

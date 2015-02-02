@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="DropdownCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aH-cc-cr8">
+                        <rect key="frame" x="18" y="11" width="136" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="clT-XK-7Pe">
+                        <rect key="frame" x="255" y="11" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="3aH-cc-cr8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="2di-Oq-Icd"/>
+                    <constraint firstItem="clT-XK-7Pe" firstAttribute="leading" secondItem="3aH-cc-cr8" secondAttribute="trailing" constant="101" id="6Gd-gj-fIQ"/>
+                    <constraint firstItem="3aH-cc-cr8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="18" id="6P5-yl-f6p"/>
+                    <constraint firstAttribute="centerY" secondItem="3aH-cc-cr8" secondAttribute="centerY" id="Ejc-6m-MTo"/>
+                    <constraint firstItem="clT-XK-7Pe" firstAttribute="leading" secondItem="3aH-cc-cr8" secondAttribute="trailing" constant="101" id="XTN-Ut-mk0"/>
+                    <constraint firstAttribute="bottom" secondItem="3aH-cc-cr8" secondAttribute="bottom" constant="11.5" id="ZCV-be-EmB"/>
+                    <constraint firstAttribute="trailing" secondItem="clT-XK-7Pe" secondAttribute="trailing" constant="23" id="fGn-o1-L7I"/>
+                    <constraint firstAttribute="centerY" secondItem="clT-XK-7Pe" secondAttribute="centerY" id="kIy-lS-dar"/>
+                    <constraint firstAttribute="bottom" secondItem="clT-XK-7Pe" secondAttribute="bottom" constant="11.5" id="mBp-zh-YgE"/>
+                    <constraint firstItem="clT-XK-7Pe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="q6Y-85-uvg"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Ejc-6m-MTo"/>
+                        <exclude reference="6Gd-gj-fIQ"/>
+                        <exclude reference="kIy-lS-dar"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dropdownLabel" destination="3aH-cc-cr8" id="C8x-kc-7dP"/>
+                <outlet property="dropdownTriangleLabel" destination="clT-XK-7Pe" id="YW5-bq-UOI"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

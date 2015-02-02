@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SwitchCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VvL-dm-BPp">
+                        <rect key="frame" x="253" y="6" width="51" height="31"/>
+                        <connections>
+                            <action selector="switchValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="h8t-XZ-bJQ"/>
+                        </connections>
+                    </switch>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIJ-XK-5TF">
+                        <rect key="frame" x="17" y="11" width="207" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="VvL-dm-BPp" firstAttribute="leading" secondItem="bIJ-XK-5TF" secondAttribute="trailing" constant="29" id="DPB-hq-H03"/>
+                    <constraint firstAttribute="centerY" secondItem="bIJ-XK-5TF" secondAttribute="centerY" id="IDM-Zi-gGf"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="bIJ-XK-5TF" secondAttribute="bottom" constant="4" id="JBw-GK-2uL"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="VvL-dm-BPp" secondAttribute="trailing" constant="10" id="WDd-TI-RMC"/>
+                    <constraint firstItem="bIJ-XK-5TF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="9" id="aBb-63-wRu"/>
+                    <constraint firstItem="VvL-dm-BPp" firstAttribute="leading" secondItem="bIJ-XK-5TF" secondAttribute="trailing" constant="29" id="ha7-Sm-psc"/>
+                    <constraint firstAttribute="trailing" secondItem="VvL-dm-BPp" secondAttribute="trailing" constant="18" id="hhB-G7-gPx"/>
+                    <constraint firstItem="VvL-dm-BPp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-2" id="j06-YQ-L8B"/>
+                    <constraint firstAttribute="centerY" secondItem="VvL-dm-BPp" secondAttribute="centerY" id="lMi-Ul-PtI"/>
+                    <constraint firstAttribute="bottom" secondItem="VvL-dm-BPp" secondAttribute="bottom" constant="8" id="mib-FV-3cN"/>
+                    <constraint firstItem="bIJ-XK-5TF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="oUk-Ew-ofW"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="VvL-dm-BPp" secondAttribute="bottom" constant="-1" id="uWX-Od-uK9"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="IDM-Zi-gGf"/>
+                        <exclude reference="hhB-G7-gPx"/>
+                        <exclude reference="lMi-Ul-PtI"/>
+                        <exclude reference="mib-FV-3cN"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="switchButton" destination="VvL-dm-BPp" id="j10-0H-L9W"/>
+                <outlet property="switchLabel" destination="bIJ-XK-5TF" id="OPt-Wo-U5r"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
