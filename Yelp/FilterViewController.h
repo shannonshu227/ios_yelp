@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FilterViewController : UIViewController
+@class FilterViewController;
+@protocol FilterViewControllerDelegate <NSObject>
 
+- (void) filterViewController:(FilterViewController *) filterViewController didChangeFilters:(NSDictionary *) filters atIndexPath:(NSMutableArray *) selectedIndexPath;
+
+
+@end
+
+@interface FilterViewController : UIViewController
+@property (weak, nonatomic) id<FilterViewControllerDelegate> delegate;
+- (id)initWithFilters:(NSDictionary *) filters withSelectedIndexPath: (NSMutableArray *) selectedIndexPath;
 @end

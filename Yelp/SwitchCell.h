@@ -12,7 +12,7 @@
 @protocol SwitchCellDelegate <NSObject>
 
 - (void)switchCell:(SwitchCell *) cell didUpdateValue:(BOOL)value;
-- (void) setOn:(BOOL)on animated:(BOOL) animated;
+
 @end
 
 
@@ -23,5 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *switchLabel;
 
 @property (weak, nonatomic) IBOutlet UISwitch *switchButton;
+- (void) setOn:(BOOL)on animated:(BOOL) animated;
+
 
 @end

@@ -27,11 +27,11 @@
    //NSDictionary *parameters = @{@"term": term, @"ll" : @"37.774866,-122.394556", @"offset" : offset, @"deals_filter" : @"", @"radius_filter" : @"", @"category_filter" : @"", @"sort" : @""};
     NSDictionary *parameters = @{@"term": term, @"ll" : @"37.774866,-122.394556", @"offset" : offset, @"deals_filter" : @""};
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *state = [defaults objectForKey:@"8"]; //8 is 1*6+2, the deal switch
-    if ([state isEqualToString:@"yes"]) {
-        
-    }
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSString *state = [defaults objectForKey:@"8"]; //8 is 1*6+2, the deal switch
+//    if ([state isEqualToString:@"yes"]) {
+//        
+//    }
     
     return [self GET:@"search" parameters:parameters success:success failure:failure];
 }

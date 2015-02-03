@@ -18,12 +18,14 @@ NSString * const kYelpConsumerSecret = @"PfifemOlbWEytvyBdJfxiXckWkc";
 NSString * const kYelpToken = @"uoHHYF3S9dCf4ATVHLEcCXhnV41Nrvgc";
 NSString * const kYelpTokenSecret = @"VH5OBKvsPIUK49xcTj20kPCbj0Q";
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FilterViewControllerDelegate>
 
 @property (nonatomic, strong) YelpClient *client;
 @property (nonatomic, strong) NSArray *businesses;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) NSDictionary *filters;
+@property (nonatomic, strong) NSMutableArray *selectedIndexPath;
 
 -(IBAction)filterView: (id) sender;
 
@@ -48,6 +50,9 @@ NSString * const kYelpTokenSecret = @"VH5OBKvsPIUK49xcTj20kPCbj0Q";
          }];
          */
         
+        //allocate space for properties..!!!
+        self.filters = [NSDictionary dictionary];
+        self.selectedIndexPath = [NSMutableArray array];
 
     }
     return self;
@@ -185,8 +190,17 @@ NSString * const kYelpTokenSecret = @"VH5OBKvsPIUK49xcTj20kPCbj0Q";
 
 -(IBAction)filterView: (id) sender {
     
-    FilterViewController *vc = [[FilterViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    FilterViewController *vc = [[FilterViewController alloc] initWithFilters:self.filters withSelectedIndexPath:self.selectedIndexPath];
+    vc.delegate = self;
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nvc animated:YES completion:nil];
+}
+
+- (void) filterViewController:(FilterViewController *)filterViewController didChangeFilters:(NSDictionary *)filters atIndexPath:(NSMutableArray *)selectedIndexPath {
+    NSLog(@"filter change...");
+    self.filters = filters;
+    self.selectedIndexPath = selectedIndexPath;
+    
 }
 
 @end

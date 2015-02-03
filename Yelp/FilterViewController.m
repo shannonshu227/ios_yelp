@@ -10,10 +10,16 @@
 #import "SegmentCell.h"
 #import "SwitchCell.h"
 #import "DropdownCell.h"
+#import "CategoryViewController.h"
 
-@interface FilterViewController () <UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate>
+
+@interface FilterViewController () <UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate, CategoryViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) NSMutableSet *selectedSwitches;
+@property (strong, nonatomic) NSMutableSet *selectedSwitches;
+@property (strong, nonatomic) NSMutableArray *selectedIndexPath;
+@property (strong, nonatomic) NSDictionary *filters;
+@property (strong, nonatomic) NSDictionary *categoryFilters;
+@property (strong, nonatomic) NSMutableArray *categorySelectedIndexPath;
 
 
 @end
@@ -21,27 +27,40 @@
 @implementation FilterViewController
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
-        self.selectedSwitches = [NSMutableSet set];
-        
+        self.categoryFilters = [NSDictionary dictionary];
+        self.categorySelectedIndexPath = [NSMutableArray array];
+    }
+    return  self;
+}
+
+- (id)initWithFilters:(NSDictionary *) filters withSelectedIndexPath: (NSMutableArray *) selectedIndexPath {
+    self = [super init];
+    if (self) {
+        // setup
+        self.filters = filters;
+        //note: it's a copy. or they will point to same address and cancel button won't work
+        self.selectedIndexPath = [selectedIndexPath mutableCopy];
         
     }
     return self;
 }
 
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(onCancelButton)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(onSearchButton)];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
+
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SegmentCell" bundle:nil] forCellReuseIdentifier:@"SegmentCellID"];
     [self.tableView registerNib:[UINib nibWithNibName:@"SwitchCell" bundle:nil] forCellReuseIdentifier:@"SwitchCellID"];
@@ -56,14 +75,14 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 
@@ -133,9 +152,9 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (indexPath.section == 0) {
         SegmentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SegmentCellID"];
@@ -158,17 +177,24 @@
             labelText = @"Delivery";
         }
         cell.switchLabel.text = labelText;
-//        cell.switchButton.tag = indexPath.section * 6 + indexPath.row;
-//        
-//        NSString *initState = [defaults objectForKey:[NSString stringWithFormat:@"%ld", cell.switchButton.tag]];
-//        if ([initState isEqualToString:@"yes"]) {
-//            [cell.switchButton setOn:YES];
-//        } else {
-//            [cell.switchButton setOn:NO];
-//        }
-//        
-//      
-//        [cell.switchButton addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventTouchUpInside];
+        //        cell.switchButton.tag = indexPath.section * 6 + indexPath.row;
+        //
+        //        NSString *initState = [defaults objectForKey:[NSString stringWithFormat:@"%ld", cell.switchButton.tag]];
+        //        if ([initState isEqualToString:@"yes"]) {
+        //            [cell.switchButton setOn:YES];
+        //        } else {
+        //            [cell.switchButton setOn:NO];
+        //        }
+        //
+        //
+        //        [cell.switchButton addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventTouchUpInside];
+        
+        if([self.selectedIndexPath containsObject:indexPath]) {
+            cell.on = TRUE;
+        } else {
+            cell.on = FALSE;
+        }
+        
         cell.delegate = self;
         return cell;
         
@@ -182,10 +208,11 @@
         DropdownCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DropdownCellID"];
         cell.dropdownLabel.text = @"Best Match";
         cell.dropdownTriangleLabel.text = @"\u25BE";
-
+        
         return cell;
     } else if (indexPath.section == 4){
         SwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCellID"];
+        
         NSString *labelText;
         if (indexPath.row == 0) {
             labelText = @"Take-out";
@@ -197,15 +224,22 @@
             
         }
         cell.switchLabel.text = labelText;
-//        cell.switchButton.tag = indexPath.section * 6 + indexPath.row;
-//
-//        NSString *initState = [defaults objectForKey:[NSString stringWithFormat:@"%ld", cell.switchButton.tag]];
-//        if ([initState isEqualToString:@"yes"]) {
-//            [cell.switchButton setOn:YES];
-//        } else {
-//            [cell.switchButton setOn:NO];
-//        }
-//        [cell.switchButton addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventTouchUpInside];
+        //        cell.switchButton.tag = indexPath.section * 6 + indexPath.row;
+        //
+        //        NSString *initState = [defaults objectForKey:[NSString stringWithFormat:@"%ld", cell.switchButton.tag]];
+        //        if ([initState isEqualToString:@"yes"]) {
+        //            [cell.switchButton setOn:YES];
+        //        } else {
+        //            [cell.switchButton setOn:NO];
+        //        }
+        //        [cell.switchButton addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventTouchUpInside];
+        if([self.selectedIndexPath containsObject:indexPath]) {
+            cell.on = TRUE;
+        } else {
+            cell.on = FALSE;
+        }
+        
+        
         cell.delegate = self;
         return cell;
         
@@ -237,42 +271,81 @@
 
 
 
-- (IBAction)switchChanged:(id)sender
-{
-    NSInteger section = [sender tag] / 6;
-    NSInteger row = [sender tag] % 6;
-    NSLog(@"section, %ld, row, %ld", section, row);
+//- (IBAction)switchChanged:(id)sender
+//{
+//    NSInteger section = [sender tag] / 6;
+//    NSInteger row = [sender tag] % 6;
+//    NSLog(@"section, %ld, row, %ld", section, row);
 //    
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//
-//    if ([sender isOn] == true) {
-//        NSString *state = @"yes";
-//        NSLog(@"%@", state);
-//        [defaults setObject:state forKey:[NSString stringWithFormat:@"%ld", [sender tag]]];
-//    } else {
-//        NSString *state = @"no";
-//        [defaults setObject:state forKey:[NSString stringWithFormat:@"%ld", [sender tag]]];
-//    }
-//    [defaults synchronize];
-    
-}
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    
+//        if ([sender isOn] == true) {
+//            NSString *state = @"yes";
+//            NSLog(@"%@", state);
+//            [defaults setObject:state forKey:[NSString stringWithFormat:@"%ld", [sender tag]]];
+//        } else {
+//            NSString *state = @"no";
+//            [defaults setObject:state forKey:[NSString stringWithFormat:@"%ld", [sender tag]]];
+//        }
+//        [defaults synchronize];
+//    
+//}
 
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
+    if (indexPath.section == 2 && indexPath.row == 0) {
+       //handle dropdown list for distance
+    }
+    
+    if (indexPath.section == 3 && indexPath.row == 0) {
+        //handle dropdown list for sortby
+    }
+    
+    if (indexPath.section == 5 && indexPath.row == 0) {
+        
+        CategoryViewController *vc = [[CategoryViewController alloc] initWithCategories:self.categoryFilters withSelectedIndexPath:self.categorySelectedIndexPath];
+        vc.delegate = self;
+        
+        //to have navigation bar, have to embed navigation controller inside view controller
+        UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:vc];
+        
+        [self presentViewController:nvc animated:YES completion:nil];
+    }
+    
 }
+
 
 - (void) switchCell:(SwitchCell *)cell didUpdateValue:(BOOL)value {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     if(value) {
         NSLog(@"yes");
+        [self.selectedIndexPath addObject:indexPath];
     } else {
         NSLog(@"no");
+        [self.selectedIndexPath removeObject:indexPath];
     }
+}
+
+
+- (void) onCancelButton {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void) onSearchButton {
+    [self.delegate filterViewController:self didChangeFilters:self.filters atIndexPath:self.selectedIndexPath];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void) categoryViewController:(CategoryViewController *) categoryViewController didChangeCategories:(NSDictionary *) filters atIndexPath:(NSMutableArray *) selectedIndexPath {
+    NSLog(@"category change...");
+    self.categoryFilters = filters;
+    self.categorySelectedIndexPath = selectedIndexPath;
 }
 
 @end
